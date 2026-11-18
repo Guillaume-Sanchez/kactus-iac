@@ -1,0 +1,28 @@
+# Moteur de statistiques Kactus - manifeste fourni par l'éditeur.
+# À commiter tel quel.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kactus-analytics
+  labels:
+    app: kactus-analytics
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kactus-analytics
+  template:
+    metadata:
+      labels:
+        app: kactus-analytics
+    spec:
+      containers:
+        - name: analytics
+          image: polinux/stress
+          command: ["stress"]
+          # Mode normal : 64M. Épreuve de charge : remplacer 64M par CHARGE.
+          args: ["--vm", "1", "--vm-bytes", "64M", "--vm-hang", "1"]
+          resources:
+            requests:
+              cpu: "4"
+              memory: 16Gi
